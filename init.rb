@@ -13,6 +13,7 @@ require "couchrest"
 require "haml"
 require "sass"
 require "json"
+require "octopi"
 
 class Main < Monk::Glue
   set :app_file, __FILE__
