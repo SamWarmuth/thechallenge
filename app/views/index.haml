@@ -1,75 +1,25 @@
 .container_12
   .grid_12{:style => "margin-top: 20px;"}
     .box{:style => " border: 1px solid #ccc; border-radius: 5px; margin-right: 4px;"}
-      .progress-bar
-        .full-bar.green{:style => "width: 40%"}
-      .progress-bar
-        .full-bar.blue{:style => "width: 20%"}
-      .progress-bar
-        .full-bar.red{:style => "width: 30%"}
-      
-  .grid_4
-    .box-header
-      Kellene
-    .box{:style => "padding: 0; font-size: 1.75em;"}
-      .colored-box.green.square Current Score: 100
-      .colored-box.green.square 
-        Last Push: never
-      .colored-box.green.square 
-        Total LOC: 0
-      .colored-box.green.square 
-        Bugs Identified: 0
-      .colored-box.green.square 
-        Bugs Fixed: 0
-      .colored-box.green.square 
-        Feature Suggestions: 0
-      .colored-box.green.square 
-        Features Implemented: 0
-      .colored-box.green.square 
-        Longest Streak: 0 days
-  .grid_4
-    .box-header
-      Matt
-    .box{:style => "padding: 0; font-size: 1.75em;"}
-      .colored-box.blue.square
-        Current Score: 100
-      .colored-box.blue.square 
-        Last Push: never
-      .colored-box.blue.square 
-        Total LOC: 0
-      .colored-box.blue.square 
-        Bugs Identified: 0
-      .colored-box.blue.square 
-        Bugs Fixed: 0
-      .colored-box.blue.square 
-        Feature Suggestions: 0
-      .colored-box.blue.square 
-        Features Implemented: 0
-      .colored-box.blue.square 
-        Longest Streak: 0 days
-  .grid_4
-    .box-header
-      Andre
-    .box{:style => "padding: 0; font-size: 1.75em;"}
-      .colored-box.red.square 
-        Current Score: 100
-      .colored-box.red.square 
-        Last Push: never
-      .colored-box.red.square 
-        Total LOC: 0
-      .colored-box.red.square 
-        Bugs Identified: 0
-      .colored-box.red.square 
-        Bugs Fixed: 0
-      .colored-box.red.square 
-        Feature Suggestions: 0
-      .colored-box.red.square 
-        Features Implemented: 0
-      .colored-box.red.square 
-        Longest Streak: 0 days
-      
-      
-      
-      
-      
-  
+      -@tracked.each do |user|
+        .progress-bar
+          .full-bar{:style => "width: #{100*user.score/@score_totals}%", :class => user.color}
+  -@tracked.each do |user|
+    .grid_4
+      .box-header= user.name.first
+      .box{:style => "padding: 0; font-size: 1.75em;"}
+        .colored-box.square{:class => user.color} Current Score: #{user.score}
+        .colored-box.square{:class => user.color} 
+          Last Commit: #{user.last_commit || "never"}
+        .colored-box.square{:class => user.color}
+          Total LOC: #{user.loc}
+        .colored-box.square{:class => user.color}
+          Bugs Identified: #{user.bugs_identified}
+        .colored-box.square{:class => user.color}
+          Bugs Fixed: #{user.bugs_fixed}
+        .colored-box.square{:class => user.color}
+          Feature Suggestions: #{user.feature_suggestions}
+        .colored-box.square{:class => user.color}
+          Features Implemented: #{user.features_implemented}
+        .colored-box.square{:class => user.color}
+          Longest Streak: #{user.longest_streak} day#{'s' if user.longest_streak != 1}

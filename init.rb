@@ -14,6 +14,8 @@ require "haml"
 require "sass"
 require "json"
 require "octopi"
+require "rufus/scheduler"
+
 
 class Main < Monk::Glue
   set :app_file, __FILE__
@@ -25,9 +27,22 @@ couchdb_url = monk_settings(:couchdb)[:url]
 COUCHDB_SERVER = CouchRest.database!(couchdb_url)
 
 
+
 # Load all application files.
 Dir[root_path("app/**/*.rb")].each do |file|
   require file
+end
+
+if defined?(Scheduler).nil?
+  Scheduler = Rufus::Scheduler.start_new
+  
+  NPC.all.each do |npc|
+    next if npc.disabled
+    npc.activate
+  end
+  Scheduler.every "1m" do
+    #update user list
+  end
 end
 
 Main.run! if Main.run?
