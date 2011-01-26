@@ -36,17 +36,29 @@ end
 
 if defined?(Scheduler).nil?
   Scheduler = Rufus::Scheduler.start_new
-  Scheduler.every "5m", :first_in => '0s' do
+  Scheduler.every "2m", :first_in => '30s' do
     sam = Octopi::User.find("SamWarmuth")
     repo = sam.repository("classaxis")
     issues = repo.issues + Octopi::Issue.find_all({:user => sam, :repository => repo, :state => "closed"})
+    commits = repo.commits
       
     Tracked.all.each do |user|
       user.bugs_identified = 0
       user.bugs_fixed = 0
       user.feature_suggestions = 0
       user.features_implemented = 0
+      user.commits = 0
+      
       user.save
+    end
+    
+    commits.each do |commit|
+      username = commit.map{|c| c.author['login']}
+      user = Tracked.by_github_username(:key => issue.user).first
+      unless user.nil?
+        user.commits += 1
+        user.save
+      end
     end
     issues.each do |issue|
       creator = Tracked.by_github_username(:key => issue.user).first

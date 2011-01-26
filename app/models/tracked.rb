@@ -10,6 +10,7 @@ class Tracked < CouchRest::ExtendedDocument
   
   property :score, :default => 0
   property :last_commit
+  property :commits, :default => 0
   property :loc, :default => 0
   property :bugs_identified, :default => 0
   property :bugs_fixed, :default => 0
@@ -22,10 +23,11 @@ class Tracked < CouchRest::ExtendedDocument
   property :date, :default => Proc.new{Time.now.to_i}
   
   def update_score
-    score = 20
+    score = 15
     score += self.bugs_identified * 50
     score += self.feature_suggestions * 25
-    score += loc
+    score += self.current_streak * 20
+    score += self.loc
     self.score = score
   end
 end
