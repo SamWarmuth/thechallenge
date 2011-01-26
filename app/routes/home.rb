@@ -1,6 +1,5 @@
 class Main
   get "/" do
-    update_stats
     @tracked = Tracked.all
     @score_totals = @tracked.inject(0){|sum, user| sum + user.score}
     haml :index

@@ -33,15 +33,13 @@ Dir[root_path("app/**/*.rb")].each do |file|
   require file
 end
 
+update_stats
+
 if defined?(Scheduler).nil?
   Scheduler = Rufus::Scheduler.start_new
   
-  NPC.all.each do |npc|
-    next if npc.disabled
-    npc.activate
-  end
-  Scheduler.every "1m" do
-    #update user list
+  Scheduler.every "5m" do
+    update_stats
   end
 end
 
