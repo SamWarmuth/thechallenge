@@ -5,6 +5,9 @@ class Tracked < CouchRest::ExtendedDocument
   property :github_username
   view_by :github_username
   
+  property :hidden, :default => false
+  view_by :hidden
+  
   property :last_updated, :default => Proc.new{Time.now.to_i}
   property :color, :default => "gray"
   
@@ -27,6 +30,7 @@ class Tracked < CouchRest::ExtendedDocument
     score += self.bugs_identified * 50
     score += self.feature_suggestions * 25
     score += self.current_streak * 20
+    score += self.commits * 5
     score += self.loc
     self.score = score
   end

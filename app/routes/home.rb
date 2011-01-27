@@ -1,6 +1,6 @@
 class Main
   get "/" do
-    @tracked = Tracked.all
+    @tracked = Tracked.by_hidden(:key => 'false')
     @score_totals = @tracked.inject(1){|sum, user| sum + user.score}
     haml :index
   end

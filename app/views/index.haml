@@ -10,7 +10,7 @@
       .box{:style => "padding: 0; font-size: 1.75em;"}
         .colored-box.square{:class => user.color} Current Score: #{user.score}
         .colored-box.square{:class => user.color} 
-          Last Commit: #{user.last_commit || "never"}
+          Commits: #{user.commits || "none"}
         .colored-box.square{:class => user.color}
           Total LOC: #{user.loc}
         .colored-box.square{:class => user.color}
