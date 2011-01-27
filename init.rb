@@ -36,7 +36,7 @@ end
 
 if defined?(Scheduler).nil?
   Scheduler = Rufus::Scheduler.start_new
-  Scheduler.every "30s" do
+  Scheduler.every "2m" do
     sam = Octopi::User.find("SamWarmuth")
     repo = sam.repository("classaxis")
       
